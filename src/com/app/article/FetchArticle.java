@@ -17,14 +17,12 @@ public class FetchArticle implements AriticleDownload {
 	public void fetchArtical(BufferedReader br, String filePath,
 			String fileName, String url) throws IOException,
 			FileNotFoundException {
-		// �ļ�·��+�ļ���
 		StringBuilder articalContentInfo = new StringBuilder();
 //		articalContentInfo.append(fileName);
 		String line = "";
 		ControlFilter controlFilter = new ControlFilter();
 		controlFilter.composeFilter();
-
-		// ��ӹ�����
+		// 文章结束标签
 		String articleEndTitleTag = PropertiesAssist.getPropetiesValue(PropertiesAssist.articleContentEndTag);
 		while ((line = br.readLine()) != null) {
 			 System.out.println(line);
@@ -39,7 +37,6 @@ public class FetchArticle implements AriticleDownload {
 
 					String sbMsg = articalContentInfo.toString();
 					// System.out.println(sbMsg);
-					// ���� src
 					Pattern imgSrcPattern = Pattern
 							.compile("(?<=(src|SRC)=\"|')/[A-Za-z0-9-_./]+");
 					Matcher matcher = imgSrcPattern.matcher(sbMsg);
@@ -55,7 +52,7 @@ public class FetchArticle implements AriticleDownload {
 					fileName = fileName.substring(0,10)+"...";
 				}
 				
-				String stuffix = PropertiesAssist.getPropetiesValue(PropertiesAssist.stuffix);
+//				String stuffix = PropertiesAssist.getPropetiesValue(PropertiesAssist.stuffix);
 				file = new File(filePath + "/" + fileName + urlStuffix);
 				System.out.println(file.getAbsolutePath());
 				if (!file.exists()) {
@@ -71,7 +68,7 @@ public class FetchArticle implements AriticleDownload {
 				articalWriter.close();
 				break;
 			} else {
-				// д����������
+				// 每一行进行换行
 				articalContentInfo.append(line + "\r\n");
 				// System.out.println(line);
 			}

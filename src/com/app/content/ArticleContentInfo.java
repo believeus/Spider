@@ -1,19 +1,13 @@
 package com.app.content;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import com.app.download.DownLoad;
-import com.app.log.Log;
-import com.app.log.URLLog;
 import com.app.netconnet.NetConection;
 import com.app.util.PropertiesAssist;
 
@@ -24,24 +18,18 @@ public class ArticleContentInfo implements ContentInfo {
 	public void fetchInfoToFile(Set<String> urls, DownLoad downLoad) {
 		downLoad(urls, downLoad);
 	}
-
 	private void downLoad(Set<String> urls, DownLoad downLoad) {
 		try {
+			// 整个页面开始标志处
+			String articleContentTag=PropertiesAssist.getPropetiesValue(PropertiesAssist.articleContentTag);
 			// 文章标题开始标签
-			String articleTitleBeginTag = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
-			// 文章开始标签
-			String articleBeginTitleTag = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
-			// 文章开始标签
-			String articleContentBeginTag = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.articleContentBeginTag);
+			String articleTitleBeginTag = PropertiesAssist.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
 			// 文章标题结束标签
-			String articleTitleEndTag = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.articleEndTitleTag);
+			String articleTitleEndTag = PropertiesAssist.getPropetiesValue(PropertiesAssist.articleEndTitleTag);
+			// 文章开始标签
+			String articleContentBeginTag = PropertiesAssist.getPropetiesValue(PropertiesAssist.articleContentBeginTag);
 			// 文章保存路径
-			String toBeSaveArticalPath = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.ToBeSaveArticalPath);
+			String toBeSaveArticalPath = PropertiesAssist.getPropetiesValue(PropertiesAssist.ToBeSaveArticalPath);
 			File toBeSaveArticalPathFile = new File(toBeSaveArticalPath);
 			// 不存在就创建该文章路径
 			if (!toBeSaveArticalPathFile.exists()) {
@@ -50,7 +38,6 @@ public class ArticleContentInfo implements ContentInfo {
 			Iterator<String> iterator = urls.iterator();
 			int size = urls.size();
 			int index = 0;
-			String articleContentTag=PropertiesAssist.getPropetiesValue(PropertiesAssist.articleContentTag);
 			while (iterator.hasNext()) {
 				String fileName = "";
 				index++;
