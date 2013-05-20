@@ -24,35 +24,21 @@ public class ArticleContentInfo implements ContentInfo {
 	public void fetchInfoToFile(Set<String> urls, DownLoad downLoad) {
 		downLoad(urls, downLoad);
 	}
-	private static String[] articleTitleBeginTag;
-	private static String[] articleBeginTitleTag;
-	private static String[] articleContentBeginTag;
-	private static String[] articleTitleEndTag;
-	private static String[] articleContentTag;
-	static{
-		String contentTag=PropertiesAssist.getPropetiesValue(PropertiesAssist.articleContentTag);
-		articleContentTag=contentTag.split(",");
-		// 文章标题开始标签
-		String titleBeginTag = PropertiesAssist
-				.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
-		articleTitleBeginTag=titleBeginTag.split(",");
-		
-		// 文章开始标签
-		String beginTitleTag = PropertiesAssist
-				.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
-		articleBeginTitleTag=beginTitleTag.split(",");
-		// 文章开始标签
-		String contentBeginTag = PropertiesAssist
-				.getPropetiesValue(PropertiesAssist.articleContentBeginTag);
-		articleContentBeginTag=contentBeginTag.split(",");
-		// 文章标题结束标签
-		String titleEndTag = PropertiesAssist
-				.getPropetiesValue(PropertiesAssist.articleEndTitleTag);
-		articleTitleEndTag=titleEndTag.split(",");
-	}
+
 	private void downLoad(Set<String> urls, DownLoad downLoad) {
 		try {
-
+			// 文章标题开始标签
+			String articleTitleBeginTag = PropertiesAssist
+					.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
+			// 文章开始标签
+			String articleBeginTitleTag = PropertiesAssist
+					.getPropetiesValue(PropertiesAssist.articleBeginTitleTag);
+			// 文章开始标签
+			String articleContentBeginTag = PropertiesAssist
+					.getPropetiesValue(PropertiesAssist.articleContentBeginTag);
+			// 文章标题结束标签
+			String articleTitleEndTag = PropertiesAssist
+					.getPropetiesValue(PropertiesAssist.articleEndTitleTag);
 			// 文章保存路径
 			String toBeSaveArticalPath = PropertiesAssist
 					.getPropetiesValue(PropertiesAssist.ToBeSaveArticalPath);
@@ -64,9 +50,13 @@ public class ArticleContentInfo implements ContentInfo {
 			Iterator<String> iterator = urls.iterator();
 			int size = urls.size();
 			int index = 0;
+			String articleContentTag=PropertiesAssist.getPropetiesValue(PropertiesAssist.articleContentTag);
 			while (iterator.hasNext()) {
 				String fileName = "";
 				index++;
+				// if (index == 200) {
+				// break;
+				// }
 				String url = (String) iterator.next();
 				iterator.remove();
 				System.out.println((index + "/" + size + "  ") + url);
