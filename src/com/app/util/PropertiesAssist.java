@@ -52,6 +52,7 @@ public class PropertiesAssist {
 	public static String HostName = "HostName";
 	public static String isSaveIndexUrl = "isSaveIndexUrl";
 	public static String URL_REPLACE_CLAZZ="URLReplaceClazz";
+	public static String Aritcle_Templete_Clazz="AritcleTempleteClazz";
 	
 	// 通过配置文件的key获取配置的value值
 	public static Properties properties = new Properties();

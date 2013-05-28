@@ -20,11 +20,11 @@ public class NoDistinguishArticle implements IFetchArticle {
 		try {
 			articalContentInfo.append(fileName);
 			if (line.contains(articleEndTitleTag)) {
+				articalContentInfo.append(line);
 				System.out.println(line);
 				String urlStuffix = url.substring(url.lastIndexOf("/") + 1)
 						+ "l";
 				File file = null;
-				articalContentInfo.append(line);
 				file = new File(filePath + "/" + fileName + urlStuffix);
 				System.out.println(fileName);
 				System.out.println(file.getAbsolutePath());
