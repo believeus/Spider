@@ -18,113 +18,42 @@ import java.util.regex.Pattern;
 
 public class PropertiesAssist {
 
-	// Ö÷Ò³
-	public static final String homePage = "HomePage";
-	// ÅäÖÃÎÄŒþµÄÂ·Ÿ¶
+	// 配置文件路径
 	private static final String ConfigFile = "config.properties";
-	// URLµØÖ·Æ¥ÅäÄ£Êœ
+	// 匹配的url地址模式
 	public static final String MATCHERURL = "PatternMatcherUrl";
 	public static final String FILTER_URL_MATCHER = "filterUrlMatcher";
-	// ÊÇ·ñœ«»ñÈ¡µÄURL±£ŽæµœÎÄŒþÖÐ
+	// 是否开启搜索url地址
 	public static final String isSearchUrls = "isSearchUrls";
-	// ±£ŽæµÄÎ»ÖÃ
-	public static final String urlsPath = "urlsPath";
-	// ¶ÁÈ¡ÎÄŒþµÄ±àÂë
+	// url地址保存路径
+	public static final String URL_SAVE_PATH = "UrlSavePath";
+	// 读取网页内容使用什么编码
 	public static final String charset = "charset";
-	// ÐèÒªÆŽœÓµÄÖ÷»úÃû
-	public static final String homeName = "HostName";
-	// ÒÑŽæÔÚurlµÄ±£ŽæµØÖ·
-	public static final String HAVEBEENSAVEDURLSPATH = "HaveBeenSavedUrlsPath";
-	// œ«Òª±£ŽæµÄÎÄÕÂµÄµØÖ·
-	public static final String TOBESAVEARTICALPATH = "ToBeSaveArticalPath";
-	// ÎÄÕÂ±£ŽæµÄžñÊœ
-	public static final String stuffix = "stuffix";
-	// ÊÇ·ñœ«Ò³ÃæÄÚÈÝ±£ŽæµœÎÄŒþÖÐ
-	public static final String isToBeSaveArticalToFile = "isToBeSaveArticalToFile";
-	// Ê¹ÓÃÄÄžöÀàÈ¥œâÎöÒ³ÃæÄÚÈÝ
-	public static final String ContentInfoclazz = "ContentInfoclazz";
-	// ŽíÎóÈÕÖŸ±£ŽæµÄÂ·Ÿ¶
-	public static final String errorFilePath = "errorFilePath";
-	// ±£Žæµ±Ç°ÎÄŒþµÄÎÄŒþÃû
-	public static List<String> fileNames = new ArrayList<String>();
-
-	// ÊÇ·ñ±£ŽæÎÄÕÂÄÚÈÝ
-	public static String IsInfoSave = "infoSave";
-
-	// ÍŒÆ¬±£ŽæµÄÂ·Ÿ¶
-	public static String ToBeSavePicPath = "ToBeSavePicPath";
-	// ÎÄÕÂ±£ŽæµÄÂ·Ÿ¶
+	// 是否将文章保存到文件中
+	public static final String ISToBeSaveArticalToFile = "isToBeSaveArticalToFile";
+	public static final String ContentInfoClazz = "ContentInfoclazz";
 	public static String ToBeSaveArticalPath = "ToBeSaveArticalPath";
-	// ÒÑŸ­¶ÁÈ¡µÄurlµØÖ·
-	public static String haveBeanReadUrlPath = "haveBeanReadUrlPath";
-	// logµÄÈÕÖŸµØÖ·
-	public static String logSavePath = "logSavePath";
-	// ÊÇ·ñ±£ŽæÈÕÖŸ±£Žæurl
-	public static String isToBeSaveLog = "isToBeSaveLog";
-	// žùurlµØÖ·Žæ·ÅµÄÄ¿ÂŒ
-	public static String rootUrlsFileName = "rootUrlsFileName";
-	// ÎÄÕÂµÄ±êÌâ¿ªÊŒµÄ±êŒÇ±êÇ©
 	public static String articleBeginTitleTag = "articleBeginTitleTag";
-	// ÎÄÕÂµÄ±êÌâœáÊøµÄ±êŒÇ±êÇ©
 	public static String articleEndTitleTag="articleEndTitleTag";
-	// ÎÄÕÂÄÚÈÝ¿ªÊŒ±êŒÇ
 	public static String articleContentTag = "articleContentTag";
-	// ÎÄÕÂÄÚÈÝœáÊø±êŒÇ
 	public static String articleContentEndTag = "articleContentEndTag";
-	// ÎÄÕÂÄÚÈÝ¿ªÊŒ±êŒÇ
 	public static String articleContentBeginTag = "articleContentBeginTag";
 	public static final String urlReg = "urlReg";
-	//
-	public static String unReadUrlSavePath = "unReadUrlSavePath";
-
-	// ¹ýÂËÆ÷µÄÊýÁ¿
-	public static String filterNum = "filterNum";
-	// ¹ýÂËÆ÷µÄÀà
-	public static String filterClass = "filterClass";
-
-	// --------------------------------urlµÚ¶þŽÎ¹ýÂËÊ¹ÓÃ---------------------------------------------------------
-	// ÊÇ·ñÒªœøÐÐµÚ¶þŽÎURL¹ýÂË
-	public static String isTheSecondFilter = "isTheSecondFilter";
-	// ÐèÒª¹ýÂËµÄÎÄŒþÃû
-	public static String willFilterFileName = "willFilterFileName";
-	// ¹ýÂËurlµÄ¹ØŒü×Ö
-	public static String filterKey = "filterKey";
-	// ¹ýÂËÖ®ºóUrlœ«±£ŽæµÄÂ·Ÿ¶
-	public static String filterURLWillSavePath = "filterURLWillSavePath";
-
-	// -------------------------------------------------------------------------------------
-
-	// Ê¹ÓÃÄÄžöÀàœøÐÐurlµØÖ·µÄËÑË÷
 	public static String searchUrlClazz = "searchUrlClazz";
-
-	// ÆðÊŒÒ³
-	public static String startPageIndex = "startPageIndex";
-	// Ä©Ò³
 	public static String endPageIndex = "endPageIndex";
-	//
 	public static String indexUrl = "indexUrl";
-
 	public static String nextIndexUrl = "nextIndexUrl";
-
 	public static String firstSearchURLBeginPosition = "firstSearchURLBeginPosition";
-
 	public static String firstSearchURLEndPosition = "firstSearchURLEndPosition";
-
-	public static String searchUrlPattern = "searchUrlPattern";
-
 	public static String isProcessFirstFindURL = "isProcessFirstFindURL";
-
 	public static String isProcessSecondFindURL = "isProcessSecondFindURL";
-
 	public static String SecondSearchURLBeginPosition = "SecondSearchURLBeginPosition";
 	public static String SecondSearchURLEndPosition = "SecondSearchURLEndPosition";
-	public static String willReplaceChars = "willReplaceChars";
-	public static String replaceChars = "replaceChars";
-	public static String isAddHostName = "isAddHostName";
 	public static String HostName = "HostName";
 	public static String isSaveIndexUrl = "isSaveIndexUrl";
+	public static String URL_REPLACE_CLAZZ="URLReplaceClazz";
 	
-	// ŒÓÔØPropertiesÎÄŒþ
+	// 通过配置文件的key获取配置的value值
 	public static Properties properties = new Properties();
 	static {
 		try {
@@ -144,7 +73,7 @@ public class PropertiesAssist {
 	public static void saveURLs(Set<String> urlSet) {
 		if (urlSet != null && !urlSet.isEmpty()) {
 			String dir = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.urlsPath);
+					.getPropetiesValue(PropertiesAssist.URL_SAVE_PATH);
 			try {
 				File file = new File(dir);
 				if (!file.exists()) {
@@ -155,7 +84,7 @@ public class PropertiesAssist {
 				Iterator<String> iterator = urlSet.iterator();
 				boolean newLine = true;
 				while (iterator.hasNext()) {
-					// »»ÐÐ,±ÜÃâœ«urlµØÖ·ºÍÆäËûurlÓÐÁ¬œÓ
+				
 					if (newLine) {
 						writer.newLine();
 						newLine = false;

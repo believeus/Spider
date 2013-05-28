@@ -11,13 +11,12 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.app.factory.Factory;
 import com.app.netconnet.NetConection;
+import com.app.url.replace.IURLReplace;
 import com.app.util.FileAssist;
 import com.app.util.PropertiesAssist;
 
-/*
- * ���ÿҳ��url��ַû��������ʽ�Ĺ������ʹ�ø���
- */
 public class SearchURLByBR implements SearchURL {
 
 	Set<String> urls = new TreeSet<String>();
@@ -25,11 +24,11 @@ public class SearchURLByBR implements SearchURL {
 	int index = 0;
 
 	@Override
-	public void fetcherAllMatcherUrlsFromRootUrlWebSite(String rootUrlsFilePathName) {
+	public void fetcherAllMatcherUrlsFromRootUrlWebSite() {
 		// 创建保存url地址的文件路径
-		String affterSearchUrlsSavePath = PropertiesAssist.getPropetiesValue(PropertiesAssist.urlsPath);
+		String affterSearchUrlsSavePath = PropertiesAssist.getPropetiesValue(PropertiesAssist.URL_SAVE_PATH);
 		String path=affterSearchUrlsSavePath.substring(0,affterSearchUrlsSavePath.lastIndexOf("/"));
-		System.out.println(path);
+//		System.out.println(path);
 		File file = new File(path);
 		if (!file.exists()) {
 			file.mkdirs();
@@ -61,17 +60,16 @@ public class SearchURLByBR implements SearchURL {
 			// 下一个类似的url地址
 			String nextIndexUrl = PropertiesAssist.getPropetiesValue(PropertiesAssist.nextIndexUrl);
 			// 获取需要替换的url地址
-			String willReplaceChars = PropertiesAssist
-					.getPropetiesValue(PropertiesAssist.willReplaceChars);
-			String replaceChars = PropertiesAssist.getPropetiesValue(PropertiesAssist.replaceChars);
+			String urlReplaceClazz=PropertiesAssist.getPropetiesValue(PropertiesAssist.URL_REPLACE_CLAZZ);
+			IURLReplace urlReplace=(IURLReplace)Factory.newInstance(urlReplaceClazz);
 			int startPage = 0;
 			int endPage = 1;
-			
+			// 该处的功能是获取每一页匹配的url地址
 			try {
 				for (int i = startPage; i <= endPage; i++) {
 					String url = "";
 					if (endPage > 1) {
-						url = nextIndexUrl.replaceAll(willReplaceChars, i+".html");
+						url = urlReplace.urlReplace(nextIndexUrl,i);
 						System.out.println("-------------->" + url);
 					} else {
 						url = indexUrl;
@@ -83,7 +81,7 @@ public class SearchURLByBR implements SearchURL {
 						String endIndex = PropertiesAssist
 								.getPropetiesValue(PropertiesAssist.endPageIndex);
 						if (endIndex.equals("1")) {
-							url = nextIndexUrl.replaceAll(willReplaceChars, "1.html");
+							url = urlReplace.urlReplace(nextIndexUrl,i);
 							findMatcherUrl(beginFlag, engFlag, regex, bw, url);
 							System.out.println("-------------->" + url);
 							System.out.println(urls.size());
@@ -135,7 +133,6 @@ public class SearchURLByBR implements SearchURL {
 			String indexUrl) throws IOException {
 		Pattern htmlTagPattern = Pattern.compile("</?[a-z][a-z0-9]*[^<>]*>",
 				Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-		String isAddHostName = PropertiesAssist.getPropetiesValue(PropertiesAssist.isAddHostName);
 		String hostName = PropertiesAssist.getPropetiesValue(PropertiesAssist.HostName);
 		BufferedReader br = NetConection.urlConnectReturnBufferedReader(indexUrl);
 		String line = "";
@@ -147,14 +144,14 @@ public class SearchURLByBR implements SearchURL {
 				notFind = false;
 				// 在每一行的html标签中找到url
 				Matcher htmlMatcher = htmlTagPattern.matcher(line);
-				boolean flag = findMatcherInLine(htmlMatcher, regex, engFlag, urlAddress,isAddHostName, hostName);
+				boolean flag = findMatcherInLine(htmlMatcher, regex, engFlag, urlAddress, hostName);
 				if (flag) {
 					break Q;
 				} else {
 					while ((line = br.readLine()) != null) {
 						 System.out.println(line);
 						htmlMatcher = htmlTagPattern.matcher(line);
-						flag = findMatcherInLine(htmlMatcher, regex, engFlag, urlAddress,isAddHostName, hostName);
+						flag = findMatcherInLine(htmlMatcher, regex, engFlag, urlAddress, hostName);
 						if (flag) {
 							bw.flush();
 							break Q;
@@ -163,14 +160,12 @@ public class SearchURLByBR implements SearchURL {
 				}
 			}
 		}
-		// bw.close();
-		
 	}
 
 	int c = 0;
 
 	private boolean findMatcherInLine(Matcher htmlMatcher, Pattern regex, String engFlag,
-			String urlAddress, String isAddHostName, String hostName) {
+			String urlAddress, String hostName) {
 		boolean flag = false;
 		Q: while (htmlMatcher.find()) {
 			// System.out.println((c++) + " : " + htmlMatcher.group());
@@ -183,18 +178,14 @@ public class SearchURLByBR implements SearchURL {
 				urlAddress = urlMatcher.group();
 				System.out.println(urlAddress);
 				String host = PropertiesAssist.getPropetiesValue(PropertiesAssist.HostName);
-				String url="";
-				if (urlAddress.contains(host)) {
-					url=urlAddress;
-				}else {
+				// 如果获取的url地址没有主机名，则加上主机名
+				if (!urlAddress.contains(host)) {
 					urlAddress = host + urlAddress;
 				}
+				// 判断该链接地址是否保存过，没有保存过则放入集合中
 				if (!urls.contains(urlAddress)) {
-					String stuffix = urlAddress.substring(urlAddress.lastIndexOf(".") + 1);
-//					if (stuffix.equals("html")) {
 						System.err.println((index++) + ":" + urlAddress);
 						urls.add(urlAddress);
-//					}
 				}
 			}
 		}
@@ -230,9 +221,6 @@ public class SearchURLByBR implements SearchURL {
 							 System.out.println(matcher.group());
 							if (!urls.contains(matcher.group())) {
 								if (!urlSet.contains(matcher.group())) {
-									String stuffix = matcher.group().substring(
-											matcher.group().lastIndexOf(".") + 1);
-//									if (stuffix.equals("shtml")) {
 										String hostName = PropertiesAssist.getPropetiesValue(PropertiesAssist.HostName);
 										String url2 = "";
 										if (matcher.group().contains(hostName)) {
@@ -242,7 +230,6 @@ public class SearchURLByBR implements SearchURL {
 										}
 										System.err.println((count++) + ":" + url2);
 										urlSet.add(url2);
-//									}
 								}
 							}
 						}

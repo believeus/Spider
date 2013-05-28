@@ -1,8 +1,9 @@
 package com.app.download;
 
 import java.io.BufferedReader;
-import com.app.article.AriticleDownload;
-import com.app.article.FetchArticle;
+
+import com.app.article.templete.IArtiticleTemplete;
+import com.app.article.templete.ArticleTemplete;
 
 public class ContentDownLoad implements DownLoad {
 
@@ -13,11 +14,10 @@ public class ContentDownLoad implements DownLoad {
 			// 处理文件名的html标签
 			fileName = fileName.replaceAll("</?[a-z][a-z0-9]*[^<>]*>", "");
 			fileName = fileName.replaceAll("<h1>|</h1>|$|#|@|%|~|`|\\+|\\s+|\\|", "");
-			fileName = fileName.replaceAll("/|\"|\\.|;|:|'|-|%|&|#|\\?|��|<|>|��|��|\\*|!|��|^|\\\\",
-					"");
+			fileName = fileName.replaceAll("/|\"|\\.|;|:|'|-|%|&|#|\\?|《|<|>|》|\\*|!|^|\\\\","");
 		}
 		// 下载文章内容
-		AriticleDownload download=new FetchArticle();
+		IArtiticleTemplete download=new ArticleTemplete();
 		download.fetchArtical(br, filePath, fileName, url);
 		return false;
 	}

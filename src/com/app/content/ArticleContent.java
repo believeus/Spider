@@ -11,7 +11,7 @@ import com.app.download.DownLoad;
 import com.app.netconnet.NetConection;
 import com.app.util.PropertiesAssist;
 
-public class ArticleContentInfo implements ContentInfo {
+public class ArticleContent implements Content {
 	public static List<String> readedUrls = new ArrayList<String>();
 
 	@Override
@@ -41,9 +41,6 @@ public class ArticleContentInfo implements ContentInfo {
 			while (iterator.hasNext()) {
 				String fileName = "";
 				index++;
-				// if (index == 200) {
-				// break;
-				// }
 				String url = (String) iterator.next();
 				iterator.remove();
 				System.out.println((index + "/" + size + "  ") + url);
@@ -59,6 +56,7 @@ public class ArticleContentInfo implements ContentInfo {
 							fileName = fileName + line;
 							// 获得文件标题
 							fileName = subTitle(articleTitleBeginTag,articleTitleEndTag, fileName);
+							System.out.println(fileName);
 							break Q;
 						}else {
 							while ((line = br.readLine()) != null) {
@@ -85,15 +83,12 @@ public class ArticleContentInfo implements ContentInfo {
 				while ((line = br.readLine()) != null) {
 					System.out.println(line+"------------"+articleContentBeginTag);
 					if (line.contains(articleContentBeginTag)) {
-						// times++;
-						// if (times == 2) {
 						downLoad.downLoad(br, toBeSaveArticalPath, fileName,
 								url);
 						br.close();
 						break;
 					}
 				}
-				// }
 			}
 
 		} catch (Exception e) {
